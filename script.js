@@ -6,6 +6,7 @@ const category = document.getElementById("category")
 
 // selects the elements from the list.
 const expenseList = document.querySelector("ul")
+const expenseQuantity = document.querySelector("aside header p span")
 
 // capture the input event to format the value.
 amount.oninput = () => {
@@ -49,6 +50,7 @@ form.onsubmit = (event) => {
     expenseAdd(newExpense)
 }
 
+// adds a new item to the list.
 function expenseAdd(newExpense) {
     try {
         // creates the li element to add the item to the list (ul).
@@ -93,8 +95,28 @@ function expenseAdd(newExpense) {
 
         // add the item to the list.
         expenseList.append(expenseItem)
+
+        // updates the totals.
+        updateTotals()
+
     } catch (error) {
         alert("Unable to update the expense list.")
         console.log(error)
+    }
+}
+
+// updates the totals.
+function updateTotals() {
+    try {
+        // retrieves all items (li) from list (ul).
+        const items = expenseList.children
+        
+        // updates the number of items in the list.
+        expenseQuantity.textContent = `${items.length} ${
+            items.length > 1 ? "despesas" : "despesa"
+        }`
+    } catch (error) {
+        console.log(error)
+        alert("Unable to update totals.")
     }
 }

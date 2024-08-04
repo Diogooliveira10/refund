@@ -6,6 +6,7 @@ const category = document.getElementById("category")
 
 // selects the elements from the list.
 const expenseList = document.querySelector("ul")
+const expensesTotal = document.querySelector("aside header h2")
 const expenseQuantity = document.querySelector("aside header p span")
 
 // capture the input event to format the value.
@@ -115,8 +116,45 @@ function updateTotals() {
         expenseQuantity.textContent = `${items.length} ${
             items.length > 1 ? "despesas" : "despesa"
         }`
+
+        // variable to increment the total.
+        let total = 0
+
+        // loop through each item (li) in the list (ul).
+        for (let item = 0; item < items.length; item++) {
+            const itemAmount = items[item].querySelector(".expense-amount")
+
+            // remove non-numeric characters and correct the comma by the period.
+            let value = itemAmount.textContent.replace(/[^\d,]/g, "").replace(",", ".")
+
+            // converts the value to float.
+            value = parseFloat(value)
+
+            // check if it is a valid number.
+            if(isNaN(value)) {
+                return alert(
+                    "The total could not be calculated. The value does not appear to be a number."
+                )
+            }
+
+            // increase the total value.
+            total += Number(value)
+        }
+
+        // create the span to add the formatted R$.
+        const symbolBRL = document.createElement("small")
+        symbolBRL.textContent = "R$"
+
+        // formats the value and removes R$ which will be displayed by small with a custom style.
+        total = formatCurrencyBRL(total).toUpperCase().replace("R$", "")
+
+        // clearing the element content.
+        expensesTotal.innerHTML = ""
+
+        // adds the currency symbol and formatted total amount.
+        expensesTotal.append(symbolBRL, total)
     } catch (error) {
-        console.log(error)
         alert("Unable to update totals.")
+        console.log(error)
     }
 }

@@ -97,6 +97,9 @@ function expenseAdd(newExpense) {
         // add the item to the list.
         expenseList.append(expenseItem)
 
+        // clears the form to add a new item.
+        formClear()
+
         // updates the totals.
         updateTotals()
 
@@ -172,3 +175,13 @@ expenseList.addEventListener("click", function (event) {
     // updates the totals.
     updateTotals()
 })
+
+// clears form inputs.
+function formClear() {
+    expense.value = ""
+    category.value = ""
+    amount.value = ""
+
+    // puts the focus on the amount input.
+    expense.focus()
+}
